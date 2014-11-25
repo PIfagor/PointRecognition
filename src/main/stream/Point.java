@@ -30,16 +30,18 @@ public class Point implements Comparable<Point> {
 	/** малюємо відрізок */
 	public void drawTo(Point that) {
 		/* DO NOT MODIFY */
-		StdDraw.setPenRadius(0.01);
+		//StdDraw.setPenRadius(0.01);
 		StdDraw.line(this.getX(), this.getY(), that.getX(), that.getY());
 	}
 
 	/** нахил між цією і that точкою */
 	public double slopeTo(Point that) {
-		if(this == that) return Double.NEGATIVE_INFINITY;
-		if (this.getX() ==  that.getX()) return Double.POSITIVE_INFINITY;
-		if (this.getY() ==  that.getY()) return 0;
-		return (double)((that.getY() - this.getY())/(that.getX() - this.getX()));
+		if (compareTo(that) == 0) return Double.NEGATIVE_INFINITY;
+		
+		if (y == that.y) return 0;
+		if (x == that.x) return Double.POSITIVE_INFINITY;
+
+		return (double)(that.y - y) / (that.x - x);
 	}
 
 	/** чи ця точка лексикографічно менша за that? */
@@ -61,8 +63,8 @@ public class Point implements Comparable<Point> {
 
 	private  class SOrder implements Comparator<Point> {
 		public int compare(Point p, Point q) {
-			if (compareTo(p)<compareTo(q)) return -1;
-			if (compareTo(p)>compareTo(q)) return 1;
+			if (slopeTo(p)<slopeTo(q)) return -1;
+			if (slopeTo(p)>slopeTo(q)) return 1;
 			return 0;
 		}
 	}
